@@ -4,15 +4,14 @@ public class Employee {
 	private Integer id;
 	private String name;
 	private Double salary;
-		
+
 	public Employee(Integer id, String name, Double salary) {
-		super();
 		this.id = id;
 		this.name = name;
 		this.salary = salary;
 	}
-
-	public Integer getId() {
+	
+public Integer getId() {
 		return id;
 	}
 	public void setId(Integer id) {
@@ -30,13 +29,15 @@ public class Employee {
 	public void setSalary(Double salary) {
 		this.salary = salary;
 	}
-
-	public void increaseSalary(double percentage) {
-		this.salary = this.salary + (this.salary * percentage);
+	
+	public void raiseSalary(Double percentage) {
+		System.out.println("Will have a " + percentage.toString() + "% raise.");
+		this.salary += this.salary * (percentage/100);
+		System.out.println(salary);
 	}
 	public String toString() {
-		return "ID: " + id
+		return "ID: " + this.id
 				+ " Name: " + name
-				+ " Salary: $" + String.format("%.2f\n", salary);
+				+ " Salary: $" + salary;
 	}
 }

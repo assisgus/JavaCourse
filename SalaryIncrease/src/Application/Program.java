@@ -1,9 +1,9 @@
 package Application;
 
+import java.io.Console;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
-import java.util.Scanner;
 
 import Entities.Employee;
 
@@ -11,55 +11,38 @@ public class Program {
 
 	public static void main(String[] args) {
 		Locale.setDefault(Locale.US);
-		Scanner sc = new Scanner(System.in);
-		List<Employee> list =  new ArrayList<>();
-		
-		System.out.println("How many employees will register? ");
-		int register = sc.nextInt();
-		
-		for (int c = 1; c <= register; c ++) {
-			System.out.printf("\n=== Employee #%d ===", c);
-			System.out.println("\nID: ");
-			int id = sc.nextInt();
-			sc.nextLine();
-			
-			System.out.println("Name: ");
-			String name = sc.nextLine();
-			
-			System.out.println("Salary: $");
-			double salary = sc.nextDouble();
-			
-			Employee employee = new Employee(id, name, salary);
-			list.add(employee);
+		Console con = System.console();
+		List<Employee> list = new ArrayList<>();
+
+		String teste = con.readLine("How many employee want to register? ");
+		int slot = Integer.parseInt(teste);
+
+		for (int c = 1; c <= slot; c++) {
+			con.printf("Employee #%s\n", c);
+			int id = Integer.parseInt(con.readLine("ID: "));
+			String name = con.readLine("Name: ");
+			double salary = Double.parseDouble(con.readLine("Salary: $"));
+
+			Employee emp = new Employee(id, name, salary);
+			list.add(emp);
 		}
-		System.out.println("What is the ID of employee who will get a salary increase? ");
-		int id = sc.nextInt();
-		if (getID(list, id) == null) {
-			System.out.println("Invalid ID");
-		}
-		else {
-			System.out.println("What is the increase percentage? ");
-			double percentage = sc.nextDouble();
-				for (Employee emp : list) {
-					if (getID(list, id) == id);
-					emp.increaseSalary(percentage);
+		boolean foundId = false;
+		while (!foundId) {
+			int raiseId = Integer.parseInt(con.readLine("Which ID will have a raise? "));
+			for (Employee emp : list) {
+				if (raiseId == emp.getId()) {
+					double percentage = Double.parseDouble(con.readLine("What is the raise percentage? "));
+					emp.raiseSalary(percentage);
+					foundId = true;
+					break;
+				}
+			}
+			if (!foundId) {
+				con.printf("Invalid ID, try again\n");
 			}
 		}
 		for (Employee emp : list) {
-		System.out.print(emp);
-		}
-		sc.close();
-	}
-	
-	public static Integer getID(List<Employee> list, int id) {
-		for (int c = 0;  c < list.size(); c ++) {
-			if (list.get(c).getId()== id) {
-				return id;
-			}	
-		}
-		return null;
+			con.printf(emp.toString());
 		}
 	}
-	
-	
-
+}
